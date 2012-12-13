@@ -36,6 +36,19 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
 
+    // register for a device ready listener (cordova)
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        // registering handler when user press the back button
+        document.addEventListener("backbutton", onBackKeyDown, false);
+    }
+    function onBackKeyDown(event) {
+        // exit the app if the user is on this page!
+        event.preventDefault();
+        // call the exit app (cordova)
+        navigator.app.exitApp();
+    }
+
 </script>
 
 <div data-role="content">
