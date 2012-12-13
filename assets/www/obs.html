@@ -158,11 +158,15 @@
             <ul data-role="listview" data-inset="true" id="obs-placeholder"></ul>
         </div>
 
-        <div data-role="footer">
+        <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a href="patient.html" rel="external" data-icon="home">Demographic</a></li>
-                    <li><a href="obs.html" rel="external" data-icon="star" class="ui-btn-active">Observation</a></li>
+                    <li>
+                        <a href="obs.html" rel="external" data-icon="star" class="ui-btn-active ui-state-persist">
+                            Observation
+                        </a>
+                    </li>
                     <li><a href="form.html" rel="external" data-icon="grid">Forms</a></li>
                 </ul>
             </div>
