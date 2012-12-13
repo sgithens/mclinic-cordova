@@ -26,12 +26,6 @@
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.css"/>
     <title>Hello World</title>
-
-    <style>
-        img.border {
-            padding: 7px 7px 7px 7px;
-        }
-    </style>
 </head>
 <body>
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -40,35 +34,7 @@
 <script type="text/javascript" src="js/jsrender.js"></script>
 <script type="text/javascript" src="js/cordova-2.2.0.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
-
-    var person = [
-        {
-            systemId: "999KT-3",
-            givenName: "Testarius",
-            familyName: "Kungu",
-            middleName: "Paul",
-            gender: "M",
-            birth: "04/16/1984"
-        }
-    ];
-
-    function displayResults() {
-        var placeholder = $("#patient-placeholder");
-        placeholder.empty();
-
-        var template = $("#patient-data");
-        var data = template.render(person);
-
-        placeholder.html(data);
-        placeholder.listview("refresh");
-
-    }
-
-    $(document).ready(function () {
-        displayResults()
-    });
 
     // register for a device ready listener (cordova)
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -96,47 +62,23 @@
         </div>
 
         <div data-role="content">
-            <ul data-role="listview" data-inset="true" id="patient-placeholder"></ul>
+            Forms information goes here.
         </div>
 
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
+                    <li><a href="patient.html" rel="external" data-icon="home">Demographic</a></li>
+                    <li><a href="obs.html" rel="external" data-icon="star">Observation</a></li>
                     <li>
-                        <a href="patient.html" rel="external" data-icon="home" class="ui-btn-active ui-state-persist">
-                            Demographic
+                        <a href="form.html" rel="external" data-icon="grid" class="ui-btn-active ui-state-persist">
+                            Forms
                         </a>
                     </li>
-                    <li><a href="obs.html" rel="external" data-icon="star">Observation</a></li>
-                    <li><a href="form.html" rel="external" data-icon="grid">Forms</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-
-<script id="patient-data" type="text/x-jsrender">
-    <li>
-        <p></p>
-        {{if gender=='M'}}
-        <img src="img/male-small.png" class="border"/>
-        {{else}}
-        <img src="img/female-small.png" class="border"/>
-        {{/if}}
-    </li>
-    <li>
-        <p>Name</p>
-
-        <h3>{{>givenName}} {{>middleName}} {{>familyName}}</h3>
-    </li>
-    <li>
-        <p>Identifier</p>
-        <h4>{{>systemId}}</h4>
-    </li>
-    <li>
-        <p>Date of Birth</p>
-        <h4>{{>birth}}</h4>
-    </li>
-</script>
 </body>
 </html>
