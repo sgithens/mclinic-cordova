@@ -1,17 +1,63 @@
 /**
- * The contents of this file are subject to the OpenMRS Public License
- * Version 1.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://license.openmrs.org
+ * Copyright 2012 Muzima Team
  *
- * Software distributed under the License is distributed on an "AS IS"
- * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
- * License for the specific language governing rights and limitations
- * under the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.mclinic.plugin;
 
-public class PatientPlugin {
+import java.util.List;
+
+import com.mclinic.api.model.Patient;
+import com.mclinic.api.service.PatientService;
+import com.mclinic.search.api.Context;
+import com.mclinic.search.api.util.StringUtil;
+import org.apache.cordova.api.CallbackContext;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+public class PatientPlugin extends MuzimaPlugin {
+
+    private final String TAG = PatientPlugin.class.getSimpleName();
+
+    /**
+     * Executes the request.
+     * <p/>
+     * This method is called from the WebView thread. To do a non-trivial amount of work, use:
+     * cordova.getThreadPool().execute(runnable);
+     * <p/>
+     * To run on the UI thread, use:
+     * cordova.getActivity().runOnUiThread(runnable);
+     *
+     * @param action          The action to execute.
+     * @param args            The exec() arguments.
+     * @param callbackContext The callback context used when calling back into JavaScript.
+     * @return Whether the action was valid.
+     */
+    @Override
+    public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        PatientService patientService = Context.getInstance(PatientService.class);
+        if (StringUtil.equals(action, "getAllPatients")) {
+            List<Patient> patients = patientService.getAllPatients();
+        } else if (StringUtil.equals(action, "getPatientsByName")) {
+            String name = args.getString(0);
+            List<Patient> patients = patientService.getPatientsByName(name);
+        } else if (StringUtil.equals(action, "getPatientByIdentifier")) {
+            String identifier = args.getString(0);
+            Patient patient = patientService.getPatientByIdentifier(identifier);
+        } else if (StringUtil.equals(action, "getPatientByUuid")) {
+            String uuid = args.getString(0);
+            Patient patient = patientService.getPatientByUuid(uuid);
+        }
+        return super.execute(action, args, callbackContext);
+    }
 }

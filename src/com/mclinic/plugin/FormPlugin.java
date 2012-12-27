@@ -15,19 +15,13 @@
  */
 package com.mclinic.plugin;
 
-import java.util.List;
-
-import com.mclinic.api.model.Observation;
-import com.mclinic.api.model.Patient;
-import com.mclinic.api.service.ObservationService;
-import com.mclinic.api.service.PatientService;
-import com.mclinic.search.api.Context;
-import com.mclinic.search.api.util.StringUtil;
 import org.apache.cordova.api.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class ObsPlugin extends MuzimaPlugin {
+public class FormPlugin extends MuzimaPlugin {
+
+    private final String TAG = FormPlugin.class.getSimpleName();
 
     /**
      * Executes the request.
@@ -44,17 +38,7 @@ public class ObsPlugin extends MuzimaPlugin {
      * @return Whether the action was valid.
      */
     @Override
-    public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        PatientService patientService = Context.getInstance(PatientService.class);
-        ObservationService observationService = Context.getInstance(ObservationService.class);
-        if (StringUtil.equals(action, "getAllObservations")) {
-            String patientUuid = args.getString(0);
-            Patient patient = patientService.getPatientByUuid(patientUuid);
-            List<Observation> observations = observationService.getAllObservations(patient);
-        } else if (StringUtil.equals(action, "getObservationByUuid")) {
-            String uuid = args.getString(0);
-            Observation observation = observationService.getObservationByUuid(uuid);
-        }
-        return super.execute(action, args, callbackContext);
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        return super.execute(action, args, callbackContext);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

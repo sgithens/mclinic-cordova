@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mclinic;
+package com.mclinic.util;
 
-import android.os.Bundle;
-import org.apache.cordova.DroidGap;
+import android.os.Environment;
 
-public class MuzimaActivity extends DroidGap
-{
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        super.loadUrl("file:///android_asset/www/login.html");
+public class FileUtil {
+
+    public static boolean storageReady() {
+        String cardstatus = Environment.getExternalStorageState();
+        if (cardstatus.equals(Environment.MEDIA_REMOVED)
+                || cardstatus.equals(Environment.MEDIA_UNMOUNTABLE)
+                || cardstatus.equals(Environment.MEDIA_UNMOUNTED)
+                || cardstatus.equals(Environment.MEDIA_MOUNTED_READ_ONLY)
+                || cardstatus.equals(Environment.MEDIA_SHARED)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
-
