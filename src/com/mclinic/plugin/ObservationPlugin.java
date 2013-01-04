@@ -21,13 +21,16 @@ import com.mclinic.api.model.Observation;
 import com.mclinic.api.model.Patient;
 import com.mclinic.api.service.ObservationService;
 import com.mclinic.api.service.PatientService;
+import com.mclinic.json.ObservationConverter;
 import com.mclinic.search.api.Context;
 import com.mclinic.search.api.util.StringUtil;
 import org.apache.cordova.api.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class ObsPlugin extends MuzimaPlugin {
+public class ObservationPlugin extends MuzimaPlugin {
+
+    private final String TAG = ObservationPlugin.class.getSimpleName();
 
     /**
      * Executes the request.
@@ -45,16 +48,22 @@ public class ObsPlugin extends MuzimaPlugin {
      */
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        boolean valid = true;
+        ObservationConverter converter = new ObservationConverter();
         PatientService patientService = Context.getInstance(PatientService.class);
         ObservationService observationService = Context.getInstance(ObservationService.class);
         if (StringUtil.equals(action, "getAllObservations")) {
             String patientUuid = args.getString(0);
             Patient patient = patientService.getPatientByUuid(patientUuid);
             List<Observation> observations = observationService.getAllObservations(patient);
+            callbackContext.success(converter.serialize(observations));
         } else if (StringUtil.equals(action, "getObservationByUuid")) {
             String uuid = args.getString(0);
             Observation observation = observationService.getObservationByUuid(uuid);
+            callbackContext.success(converter.serialize(observation));
+        } else {
+            return super.execute(action, args, callbackContext);
         }
-        return super.execute(action, args, callbackContext);
+        return valid;
     }
 }

@@ -36,17 +36,6 @@
     // register for a device ready listener (cordova)
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
-        cordova.exec(
-                function(parameters) {
-                    alert ("Success");
-                },
-                function(errors) {
-                    alert("Error");
-                },
-                "AdminPlugin",
-                "initialize",
-                []
-        );
         // registering handler when user press the back button
         document.addEventListener("backbutton", onBackKeyDown, false);
     }

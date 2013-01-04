@@ -48,7 +48,12 @@ public abstract class MuzimaPlugin extends CordovaPlugin {
             Log.i(TAG, "Initializing internal structure of the plugins.");
 
             if (FileUtil.storageReady()) {
-                Context.initialize(new MuzimaModule(lucenePath, defaultKey));
+                MuzimaModule muzimaModule = new MuzimaModule(lucenePath, defaultKey);
+                // TODO: this should come from some sort of configuration on the ui side.
+                muzimaModule.setServer("http://140.182.6.88:8081/openmrs-standalone/");
+                muzimaModule.setUsername("admin");
+                muzimaModule.setPassword("test");
+                Context.initialize(muzimaModule);
 
                 AdministrativeService administrativeService = Context.getInstance(AdministrativeService.class);
                 administrativeService.initializeRepository(configurationPath);

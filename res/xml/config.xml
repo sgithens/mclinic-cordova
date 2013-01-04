@@ -52,7 +52,11 @@
     <plugin name="Echo" value="org.apache.cordova.Echo" />
     <plugin name="Globalization" value="org.apache.cordova.Globalization"/>
 
-    <plugin name="AdministrativePlugin" value="com.mclinic.plugin.MuzimaPlugin"/>
+    <plugin name="AdminPlugin" value="com.mclinic.plugin.AdminPlugin"/>
+    <plugin name="FormPlugin" value="com.mclinic.plugin.FormPlugin"/>
+    <plugin name="CohortPlugin" value="com.mclinic.plugin.CohortPlugin"/>
+    <plugin name="PatientPlugin" value="com.mclinic.plugin.PatientPlugin"/>
+    <plugin name="ObservationPlugin" value="com.mclinic.plugin.ObservationPlugin"/>
 </plugins>
 </cordova>
 
