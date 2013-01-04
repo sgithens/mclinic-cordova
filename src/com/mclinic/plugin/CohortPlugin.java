@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.mclinic.api.model.Cohort;
 import com.mclinic.api.service.CohortService;
+import com.mclinic.json.CohortConverter;
 import com.mclinic.search.api.Context;
 import com.mclinic.search.api.util.StringUtil;
 import org.apache.cordova.api.CallbackContext;
@@ -45,16 +46,23 @@ public class CohortPlugin extends MuzimaPlugin {
      */
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        boolean valid = true;
+        CohortConverter converter = new CohortConverter();
         CohortService cohortService = Context.getInstance(CohortService.class);
         if (StringUtil.equals(action, "getAllCohorts")) {
             List<Cohort> cohorts = cohortService.getAllCohorts();
+            callbackContext.success(converter.serialize(cohorts));
         } else if (StringUtil.equals(action, "getCohortsByName")) {
             String name = args.getString(0);
             List<Cohort> cohorts = cohortService.getCohortsByName(name);
+            callbackContext.success(converter.serialize(cohorts));
         } else if (StringUtil.equals(action, "getCohortByUuid")) {
             String uuid = args.getString(0);
             Cohort cohort = cohortService.getCohortByUuid(uuid);
+            callbackContext.success(converter.serialize(cohort));
+        } else {
+            return super.execute(action, args, callbackContext);
         }
-        return super.execute(action, args, callbackContext);
+        return valid;
     }
 }

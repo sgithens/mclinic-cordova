@@ -15,20 +15,16 @@
  */
 package com.mclinic.plugin;
 
-import java.util.List;
-
-import com.mclinic.api.model.Patient;
-import com.mclinic.api.service.PatientService;
-import com.mclinic.json.PatientConverter;
+import com.mclinic.api.service.AdministrativeService;
 import com.mclinic.search.api.Context;
 import com.mclinic.search.api.util.StringUtil;
 import org.apache.cordova.api.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class PatientPlugin extends MuzimaPlugin {
+public class AdminPlugin extends MuzimaPlugin {
 
-    private final String TAG = PatientPlugin.class.getSimpleName();
+    private final String TAG = AdminPlugin.class.getSimpleName();
 
     /**
      * Executes the request.
@@ -47,26 +43,39 @@ public class PatientPlugin extends MuzimaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         boolean valid = true;
-        PatientConverter converter = new PatientConverter();
-        PatientService patientService = Context.getInstance(PatientService.class);
-        if (StringUtil.equals(action, "getAllPatients")) {
-            List<Patient> patients = patientService.getAllPatients();
-            callbackContext.success(converter.serialize(patients));
-        } else if (StringUtil.equals(action, "getPatientsByName")) {
-            String name = args.getString(0);
-            List<Patient> patients = patientService.getPatientsByName(name);
-            callbackContext.success(converter.serialize(patients));
-        } else if (StringUtil.equals(action, "getPatientByIdentifier")) {
-            String identifier = args.getString(0);
-            Patient patient = patientService.getPatientByIdentifier(identifier);
-            callbackContext.success(converter.serialize(patient));
-        } else if (StringUtil.equals(action, "getPatientByUuid")) {
-            String uuid = args.getString(0);
-            Patient patient = patientService.getPatientByUuid(uuid);
-            callbackContext.success(converter.serialize(patient));
+        if (StringUtil.equals(action, "downloadAllCohorts")) {
+            cordova.getThreadPool().execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    AdministrativeService service = Context.getInstance(AdministrativeService.class);
+                    service.downloadCohorts();
+                }
+            });
+        } else if (StringUtil.equals(action, "downloadAllPatients")) {
+            final String cohortUuid = args.getString(0);
+            cordova.getThreadPool().execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    AdministrativeService service = Context.getInstance(AdministrativeService.class);
+                    service.downloadCohortPatients(cohortUuid);
+                }
+            });
+        } else if (StringUtil.equals(action, "downloadAllObservations")) {
+            final String patientUuid = args.getString(0);
+            cordova.getThreadPool().execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    AdministrativeService service = Context.getInstance(AdministrativeService.class);
+                    service.downloadObservations(patientUuid);
+                }
+            });
         } else {
             return super.execute(action, args, callbackContext);
         }
+
         return valid;
     }
 }
