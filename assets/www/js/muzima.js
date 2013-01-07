@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var session = (function ($, undefined) {
+var session = (function ($) {
     var session = {};
     var sessionInformation = {};
 
@@ -51,15 +51,43 @@ var session = (function ($, undefined) {
     return session;
 }(jQuery));
 
-var adminService =  (function ($, undefined) {
+var adminService =  (function ($) {
     var service = {};
 
+    service.downloadAllCohorts = function (successCallback, errorCallback) {
+        var success = typeof successCallback !== 'function' ? null : function (result) {
+            successCallback(result);
+        };
+        var error = typeof errorCallback !== 'function' ? null : function (code) {
+            errorCallback(code);
+        };
+        cordova.exec(success, error, "AdminPlugin", "downloadAllCohorts", []);
+    };
 
+    service.downloadAllPatients = function (cohortUuid, successCallback, errorCallback) {
+        var success = typeof successCallback !== 'function' ? null : function (result) {
+            successCallback(result);
+        };
+        var error = typeof errorCallback !== 'function' ? null : function (code) {
+            errorCallback(code);
+        };
+        cordova.exec(success, error, "AdminPlugin", "downloadAllPatients", [cohortUuid]);
+    };
+
+    service.downloadAllObservations = function (patientUuid, successCallback, errorCallback) {
+        var success = typeof successCallback !== 'function' ? null : function (result) {
+            successCallback(result);
+        };
+        var error = typeof errorCallback !== 'function' ? null : function (code) {
+            errorCallback(code);
+        };
+        cordova.exec(success, error, "AdminPlugin", "downloadAllObservations", [patientUuid]);
+    };
 
     return service;
 }(jQuery));
 
-var cohortService = (function ($, undefined) {
+var cohortService = (function ($) {
     var service = {};
 
     service.getAllCohorts = function (successCallback, errorCallback) {
@@ -95,7 +123,7 @@ var cohortService = (function ($, undefined) {
     return service;
 }(jQuery));
 
-var patientService = (function ($, undefined) {
+var patientService = (function ($) {
     var service = {};
 
     service.getAllPatients = function (successCallback, errorCallback) {
@@ -141,7 +169,7 @@ var patientService = (function ($, undefined) {
     return service;
 }(jQuery));
 
-var observationService = (function ($, undefined) {
+var observationService = (function ($) {
     var service = {};
 
     service.getAllObservations = function (patientUuid, successCallback, errorCallback) {
