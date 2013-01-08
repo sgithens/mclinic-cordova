@@ -54,6 +54,16 @@ var session = (function ($) {
 var adminService =  (function ($) {
     var service = {};
 
+    service.downloadAllForms = function (successCallback, errorCallback) {
+        var success = typeof successCallback !== 'function' ? null : function (result) {
+            successCallback(result);
+        };
+        var error = typeof errorCallback !== 'function' ? null : function (code) {
+            errorCallback(code);
+        };
+        cordova.exec(success, error, "AdminPlugin", "downloadAllForms", []);
+    };
+
     service.downloadAllCohorts = function (successCallback, errorCallback) {
         var success = typeof successCallback !== 'function' ? null : function (result) {
             successCallback(result);
