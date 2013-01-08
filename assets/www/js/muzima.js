@@ -87,6 +87,32 @@ var adminService =  (function ($) {
     return service;
 }(jQuery));
 
+var formService = (function ($) {
+    var service = {};
+
+    service.getAllForms = function (successCallback, errorCallback) {
+        var success = typeof successCallback !== 'function' ? null : function (result) {
+            successCallback(result);
+        };
+        var error = typeof errorCallback !== 'function' ? null : function (code) {
+            errorCallback(code);
+        };
+        cordova.exec(success, error, "FormPlugin", "getAllForms", []);
+    };
+
+    service.getCohortByUuid = function (cohortUuid, successCallback, errorCallback) {
+        var success = typeof successCallback !== 'function' ? null : function (result) {
+            successCallback(result);
+        };
+        var error = typeof errorCallback !== 'function' ? null : function (code) {
+            errorCallback(code);
+        };
+        cordova.exec(success, error, "FormPlugin", "getFormByUuid", [cohortUuid]);
+    };
+
+    return service;
+}(jQuery));
+
 var cohortService = (function ($) {
     var service = {};
 
