@@ -15,6 +15,16 @@
  */
 package com.mclinic.plugin;
 
+import java.util.List;
+
+import com.mclinic.api.model.Cohort;
+import com.mclinic.api.model.Form;
+import com.mclinic.api.service.CohortService;
+import com.mclinic.api.service.FormService;
+import com.mclinic.json.CohortConverter;
+import com.mclinic.json.FormConverter;
+import com.mclinic.search.api.Context;
+import com.mclinic.search.api.util.StringUtil;
 import org.apache.cordova.api.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +49,19 @@ public class FormPlugin extends MuzimaPlugin {
      */
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        return super.execute(action, args, callbackContext);    //To change body of overridden methods use File | Settings | File Templates.
+        boolean valid = true;
+        FormConverter converter = new FormConverter();
+        FormService formService = Context.getInstance(FormService.class);
+        if (StringUtil.equals(action, "getAllCohorts")) {
+            List<Form> forms = formService.getAllForms();
+            callbackContext.success(converter.serialize(forms));
+        } else if (StringUtil.equals(action, "getCohortByUuid")) {
+            String uuid = args.getString(0);
+            Form form = formService.getFormByUuid(uuid);
+            callbackContext.success(converter.serialize(form ));
+        } else {
+            return super.execute(action, args, callbackContext);
+        }
+        return valid;
     }
 }
