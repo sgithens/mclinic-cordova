@@ -43,7 +43,16 @@ public class AdminPlugin extends MuzimaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         boolean valid = true;
-        if (StringUtil.equals(action, "downloadAllCohorts")) {
+        if (StringUtil.equals(action, "downloadAllForms")) {
+            cordova.getThreadPool().execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    AdministrativeService service = Context.getInstance(AdministrativeService.class);
+                    service.downloadForms();
+                }
+            });
+        } else if (StringUtil.equals(action, "downloadAllCohorts")) {
             cordova.getThreadPool().execute(new Runnable() {
 
                 @Override
