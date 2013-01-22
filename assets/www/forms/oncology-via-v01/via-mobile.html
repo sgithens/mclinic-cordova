@@ -1,0 +1,49 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>My Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <link rel="stylesheet" type="text/css" href="../../css/jquery.mobile-1.2.0.css"/>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/jquery.mobile-1.2.0.js"></script>
+    <script src="via-mobile.js"></script>
+  </head> 
+  <body> 
+    <div data-role="page">
+
+      <div data-role="header">
+	<h1>CCSP VIA Form</h1>
+      </div><!-- /header -->
+
+      <div data-role="content">	
+        <p>Testarius Paul Kungu<br/>
+        ID: 999KT-3<br/>
+        Born on 04/16/1984</p>
+        <form>
+          <div id="7484" data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-type="vertical" data-mini="true">
+              <legend>
+                Impression: Cervix
+              </legend>
+              <input id="radio1" name="7484" value="1115" type="radio" />
+              <label for="radio1">
+                Normal
+              </label>
+              <input id="radio2" name="7484" value="7507" type="radio" />
+              <label for="radio2">
+                Positive VIA + aceto-white only
+              </label>
+              <input id="radio3" name="7484" value="7508" type="radio" />
+              <label for="radio3">
+                Positive VIA + suspicious lesion for cancer
+              </label>
+            </fieldset>
+          </div>
+
+          <a href="../../patient.html" id="submit-button" data-role="button" data-icon="star">Submit Form</a>
+        </form>
+      </div><!-- /content -->
+
+    </div><!-- /page -->
+  </body>
+</html>
